@@ -1,0 +1,13 @@
+[package]
+name = "gherkin-fmt-cli"
+version.workspace = true
+edition.workspace = true
+
+[[bin]]
+name = "gherkinfmt"
+path = "src/main.rs"
+
+[dependencies]
+gherkin-fmt = { path = "../gherkin-fmt" }
+clap = { workspace = true }
+anyhow = { workspace = true }

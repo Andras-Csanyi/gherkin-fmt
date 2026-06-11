@@ -1,0 +1,137 @@
+mod empty_line_before_rule;
+mod helpers;
+mod indentation_rule;
+mod steps_in_scenario_rule;
+
+use anyhow::Result;
+
+use crate::config::Config;
+use crate::debug;
+
+pub fn format_block(input: &str, config: &Config, debug_enabled: bool) -> Result<String> {
+    debug::log(debug_enabled, "Starting Scenario block formatting");
+
+    debug::log_rule(debug_enabled, empty_line_before_rule::RULE_NAME);
+    let mut content = empty_line_before_rule::apply(input, config)?;
+
+    debug::log_rule(debug_enabled, indentation_rule::RULE_NAME);
+    content = indentation_rule::apply(&content, config)?;
+
+    debug::log_rule(debug_enabled, steps_in_scenario_rule::RULE_NAME);
+    content = steps_in_scenario_rule::apply(&content, config)?;
+
+    debug::log(debug_enabled, "End Scenario block formatting");
+
+    Ok(content)
+}
+
+#[cfg(test)]
+mod integration_tests {
+    use super::*;
+    use crate::config::Config;
+
+    #[test]
+    fn formats_scenario_block_simple_case() {
+        let input = r#"Feature: test feature
+Scenario: test scenario
+Given this is a not indented step
+When another unindented step
+Then once more
+"#;
+
+        let expected = r#"Feature: test feature
+
+  Scenario: test scenario
+    Given this is a not indented step
+    When another unindented step
+    Then once more
+"#;
+
+        assert_eq!(
+            format_block(input, &Config::default(), false).unwrap(),
+            expected
+        );
+    }
+
+    #[test]
+    fn formats_scenario_block_complex_case() {
+        let input = r#"Feature: test feature
+
+
+Scenario: test scenario
+Given this is a not indented step
+     And another one
+When another unindented step
+         And another one again
+Then once more
+And why not another one again
+"#;
+
+        let expected = r#"Feature: test feature
+
+  Scenario: test scenario
+    Given this is a not indented step
+    And another one
+    When another unindented step
+    And another one again
+    Then once more
+    And why not another one again
+"#;
+
+        assert_eq!(
+            format_block(input, &Config::default(), false).unwrap(),
+            expected
+        );
+    }
+
+    #[test]
+    fn formats_scenario_block_chaos_case() {
+        let input = r#"Feature: test feature
+
+
+
+
+
+
+Scenario: test scenario
+  Given this is a not indented step
+       And another one
+When another unindented step
+         And another one again
+Then once more
+And why not another one again
+"#;
+
+        let expected = r#"Feature: test feature
+
+  Scenario: test scenario
+    Given this is a not indented step
+    And another one
+    When another unindented step
+    And another one again
+    Then once more
+    And why not another one again
+"#;
+
+        assert_eq!(
+            format_block(input, &Config::default(), false).unwrap(),
+            expected
+        );
+    }
+
+    #[test]
+    fn rule_names_match_spec_rule_keyword() {
+        assert_eq!(
+            empty_line_before_rule::RULE_NAME,
+            "empty line before `Scenario` block"
+        );
+        assert_eq!(
+            indentation_rule::RULE_NAME,
+            "`Scenario` blocks are indented by level 1 to `Feature` blocks"
+        );
+        assert_eq!(
+            steps_in_scenario_rule::RULE_NAME,
+            "Scenario block steps alignment"
+        );
+    }
+}
