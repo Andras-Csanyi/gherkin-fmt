@@ -16,6 +16,10 @@ readme = "README.md"
 license = "MIT"
 license-file = "LICENSE"
 
+[lib]
+name = "gherkin_fmt_cli"
+path = "src/gherkin-fmt-cli/main.rs"
+
 [workspace.dependencies]
 clap = { version = "4", features = ["derive"] }
 anyhow = "1"
