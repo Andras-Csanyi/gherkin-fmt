@@ -3,6 +3,10 @@ resolver = "3"
 members = ["src/gherkin-fmt", "src/gherkin-fmt-cli"]
 
 [workspace.package]
+version = "0.1.0"
+edition = "2024"
+
+[package]
 name = "gherkin-fmt"
 version = "0.1.0"
 edition = "2024"
