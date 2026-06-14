@@ -3,8 +3,14 @@ resolver = "3"
 members = ["src/gherkin-fmt", "src/gherkin-fmt-cli"]
 
 [workspace.package]
+name = "gherkin-fmt"
 version = "0.1.0"
 edition = "2024"
+authors = ["Andras Csanyi"]
+description = "An opinionated command line Gherkin (.feature) file formatter."
+readme = "README.md"
+license = "MIT"
+license-file = "LICENSE"
 
 [workspace.dependencies]
 clap = { version = "4", features = ["derive"] }
