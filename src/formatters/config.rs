@@ -7,3 +7,4 @@ impl Default for Config {
         Self { indent_size: 2 }
     }
 }
+

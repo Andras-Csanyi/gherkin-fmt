@@ -1,6 +1,6 @@
 use anyhow::Result;
 
-use crate::config::Config;
+use crate::formatters::Config;
 
 use super::helpers::{find_scenario_line_indices, join_lines, split_lines};
 
@@ -64,3 +64,4 @@ mod tests {
         assert_eq!(apply(input, &Config::default()).unwrap(), expected);
     }
 }
+

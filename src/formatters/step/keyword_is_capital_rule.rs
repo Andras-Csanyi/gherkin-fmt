@@ -1,6 +1,6 @@
 use anyhow::Result;
 
-use crate::config::Config;
+use crate::formatters::Config;
 
 use super::helpers::{
     capitalize_step_keyword, is_step_line, join_lines, leading_spaces_count, split_lines,
@@ -118,3 +118,4 @@ mod tests {
         assert_eq!(apply(input, &Config::default()).unwrap(), expected);
     }
 }
+

@@ -1,9 +1,9 @@
 use anyhow::Result;
 
-use crate::config::Config;
+use crate::formatters::Config;
 
 use super::helpers::{
-    format_step_line, is_step_line, join_lines, leading_spaces_count, split_lines, SpacingOptions,
+    SpacingOptions, format_step_line, is_step_line, join_lines, leading_spaces_count, split_lines,
 };
 
 pub const RULE_NAME: &str = "one space between words in steps";
@@ -132,3 +132,4 @@ But not these ones
         assert_eq!(apply(input, &Config::default()).unwrap(), expected);
     }
 }
+

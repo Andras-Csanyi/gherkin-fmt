@@ -1,6 +1,6 @@
 use anyhow::Result;
 
-use crate::config::Config;
+use crate::formatters::Config;
 
 use super::helpers::{
     find_table_blocks, join_lines, leading_spaces_count, parse_table_cells, split_lines,
@@ -132,3 +132,4 @@ mod tests {
         assert_eq!(apply(input, &Config::default()).unwrap(), expected);
     }
 }
+
