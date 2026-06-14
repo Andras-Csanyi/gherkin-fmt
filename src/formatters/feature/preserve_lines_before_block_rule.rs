@@ -1,6 +1,6 @@
 use anyhow::Result;
 
-use crate::config::Config;
+use crate::formatters::Config;
 
 pub const RULE_NAME: &str = "preserve lines before `Feature` block";
 
@@ -11,8 +11,9 @@ pub fn apply(input: &str, config: &Config) -> Result<String> {
 
 #[cfg(test)]
 mod tests {
+    use crate::formatters::feature::format_block;
+
     use super::*;
-    use crate::feature::format_block;
 
     #[test]
     fn preserves_single_line_before_feature_block() {
@@ -63,3 +64,4 @@ Feature: this is a test feature
         );
     }
 }
+

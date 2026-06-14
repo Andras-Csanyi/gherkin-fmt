@@ -6,8 +6,8 @@ mod template_parameters_rule;
 
 use anyhow::Result;
 
-use crate::config::Config;
-use crate::debug;
+use super::Config;
+use super::debug;
 
 pub fn format_block(input: &str, config: &Config, debug_enabled: bool) -> Result<String> {
     debug::log(debug_enabled, "Starting Step block formatting");
@@ -32,7 +32,6 @@ pub fn format_block(input: &str, config: &Config, debug_enabled: bool) -> Result
 #[cfg(test)]
 mod integration_tests {
     use super::*;
-    use crate::config::Config;
 
     #[test]
     fn formats_step_block_integration_case() {
@@ -95,3 +94,4 @@ And this line has multiple <input> <parameters>
         );
     }
 }
+

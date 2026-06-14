@@ -1,11 +1,16 @@
+mod formatters;
+
 use std::fs;
 use std::io::{self, Write};
 use std::path::PathBuf;
 use std::process;
 
 use anyhow::{Context, Result};
-use clap::{CommandFactory, Parser};
-use gherkin_fmt::{format, Config};
+use clap::CommandFactory;
+use clap::Parser;
+
+use self::formatters::Config;
+use self::formatters::formatter::format;
 
 #[derive(Parser)]
 #[command(name = "gherkinfmt", version, about = "Format Gherkin feature files")]
@@ -35,12 +40,8 @@ fn run(cli: Cli) -> Result<()> {
         }
     };
 
-    let input_content = fs::read_to_string(&input_path).with_context(|| {
-        format!(
-            "failed to read input file: {}",
-            input_path.display()
-        )
-    })?;
+    let input_content = fs::read_to_string(&input_path)
+        .with_context(|| format!("failed to read input file: {}", input_path.display()))?;
 
     let config = Config::default();
     let file_name = input_path.to_str();
@@ -50,16 +51,11 @@ fn run(cli: Cli) -> Result<()> {
     write_output(cli.output.as_ref(), &formatted, &input_path)
 }
 
-fn write_output(
-    output_path: Option<&PathBuf>,
-    content: &str,
-    input_path: &PathBuf,
-) -> Result<()> {
+fn write_output(output_path: Option<&PathBuf>, content: &str, input_path: &PathBuf) -> Result<()> {
     match output_path {
         Some(path) => {
-            fs::write(path, content).with_context(|| {
-                format!("failed to write output file: {}", path.display())
-            })?;
+            fs::write(path, content)
+                .with_context(|| format!("failed to write output file: {}", path.display()))?;
         }
         None => {
             let mut stdout = io::stdout();

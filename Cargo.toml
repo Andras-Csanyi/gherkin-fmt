@@ -1,25 +1,20 @@
-[workspace]
-resolver = "3"
-members = ["src/gherkin-fmt", "src/gherkin-fmt-cli"]
-
-[workspace.package]
-version = "0.1.0"
-edition = "2024"
-
 [package]
 name = "gherkin-fmt"
+resolver = "3"
 version = "0.1.0"
 edition = "2024"
-authors = ["Andras Csanyi"]
-description = "An opinionated command line Gherkin (.feature) file formatter."
 readme = "README.md"
-license = "MIT"
+description = "An opinionated command line Gherkin (*.feature) files formatter"
 license-file = "LICENSE"
+repository = "https://github.com/AndrasCsanyi/gherkin-fmt"
+keywords = ["gherkin", "formatter", "cli", "cucumber"]
+categories = ["command-line-utilities", "development-tools"]
 
-[lib]
-name = "gherkin_fmt_cli"
-path = "src/gherkin-fmt-cli/main.rs"
 
-[workspace.dependencies]
-clap = { version = "4", features = ["derive"] }
-anyhow = "1"
+[[bin]]
+name = "gherkin-fmt"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = { version = "1.0.102", features = ["backtrace"] }
+clap = { version = "4.6.1", features = ["derive"] }

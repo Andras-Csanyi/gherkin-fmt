@@ -5,8 +5,8 @@ mod story_rule;
 
 use anyhow::Result;
 
-use crate::config::Config;
-use crate::debug;
+use super::Config;
+use super::debug;
 
 pub fn format_block(
     input: &str,
@@ -37,7 +37,6 @@ pub fn format_block(
 #[cfg(test)]
 mod integration_tests {
     use super::*;
-    use crate::config::Config;
 
     #[test]
     fn formats_feature_block_with_comment_and_story() {

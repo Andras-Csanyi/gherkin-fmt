@@ -1,10 +1,8 @@
 use anyhow::Result;
 
-use crate::config::Config;
+use crate::formatters::Config;
 
-use super::helpers::{
-    feature_block_end, find_feature_line_index, join_lines, split_lines,
-};
+use super::helpers::{feature_block_end, find_feature_line_index, join_lines, split_lines};
 
 pub const RULE_NAME: &str = "`Feature` block's story is indented by 1 level";
 
@@ -188,3 +186,4 @@ This is the first unaligned line
         assert_eq!(apply(input, &Config::default()).unwrap(), expected);
     }
 }
+

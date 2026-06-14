@@ -5,8 +5,8 @@ mod one_space_padding_at_left_rule;
 
 use anyhow::Result;
 
-use crate::config::Config;
-use crate::debug;
+use super::Config;
+use super::debug;
 
 pub fn format_block(input: &str, config: &Config, debug_enabled: bool) -> Result<String> {
     debug::log(debug_enabled, "Starting Table block formatting");
@@ -28,7 +28,6 @@ pub fn format_block(input: &str, config: &Config, debug_enabled: bool) -> Result
 #[cfg(test)]
 mod integration_tests {
     use super::*;
-    use crate::config::Config;
 
     #[test]
     fn formats_table_integration_case_one() {
@@ -96,9 +95,7 @@ Then we are at the end
             one_space_padding_at_left_rule::RULE_NAME,
             "One space left padding in the cell"
         );
-        assert_eq!(
-            column_width_padding_rule::RULE_NAME,
-            "column width padding"
-        );
+        assert_eq!(column_width_padding_rule::RULE_NAME, "column width padding");
     }
 }
+

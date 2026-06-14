@@ -1,10 +1,10 @@
 use anyhow::Result;
 
-use crate::config::Config;
+use crate::formatters::Config;
 
 use super::helpers::{
-    find_scenario_line_indices, is_step_line, join_lines, leading_spaces_count,
-    scenario_block_end, split_lines,
+    find_scenario_line_indices, is_step_line, join_lines, leading_spaces_count, scenario_block_end,
+    split_lines,
 };
 
 pub const RULE_NAME: &str = "Scenario block steps alignment";
@@ -101,3 +101,4 @@ Then this is a not indented step
         assert_eq!(apply(input, &Config::default()).unwrap(), expected);
     }
 }
+

@@ -1,10 +1,10 @@
 use anyhow::Result;
 
-use crate::config::Config;
-use crate::feature;
-use crate::scenario;
-use crate::step;
-use crate::table;
+use super::Config;
+use super::feature;
+use super::scenario;
+use super::step;
+use super::table;
 
 pub fn format(
     input: &str,
@@ -20,6 +20,8 @@ pub fn format(
 
 #[cfg(test)]
 mod tests {
+    use crate::formatters::Config;
+
     use super::*;
 
     #[test]
@@ -33,7 +35,10 @@ user story
   user story
 "#;
 
-        assert_eq!(format(input, &Config::default(), false, None).unwrap(), expected);
+        assert_eq!(
+            format(input, &Config::default(), false, None).unwrap(),
+            expected
+        );
     }
 
     #[test]
@@ -49,7 +54,10 @@ Given a step
     Given a step
 "#;
 
-        assert_eq!(format(input, &Config::default(), false, None).unwrap(), expected);
+        assert_eq!(
+            format(input, &Config::default(), false, None).unwrap(),
+            expected
+        );
     }
 
     #[test]
@@ -67,7 +75,10 @@ When a table step
       | a | b |
 "#;
 
-        assert_eq!(format(input, &Config::default(), false, None).unwrap(), expected);
+        assert_eq!(
+            format(input, &Config::default(), false, None).unwrap(),
+            expected
+        );
     }
 
     #[test]
@@ -87,6 +98,10 @@ When a table step
       | a | b |
 "#;
 
-        assert_eq!(format(input, &Config::default(), false, None).unwrap(), expected);
+        assert_eq!(
+            format(input, &Config::default(), false, None).unwrap(),
+            expected
+        );
     }
 }
+

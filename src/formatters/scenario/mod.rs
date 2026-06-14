@@ -5,8 +5,8 @@ mod steps_in_scenario_rule;
 
 use anyhow::Result;
 
-use crate::config::Config;
-use crate::debug;
+use super::Config;
+use super::debug;
 
 pub fn format_block(input: &str, config: &Config, debug_enabled: bool) -> Result<String> {
     debug::log(debug_enabled, "Starting Scenario block formatting");
@@ -28,7 +28,6 @@ pub fn format_block(input: &str, config: &Config, debug_enabled: bool) -> Result
 #[cfg(test)]
 mod integration_tests {
     use super::*;
-    use crate::config::Config;
 
     #[test]
     fn formats_scenario_block_simple_case() {
@@ -135,3 +134,4 @@ And why not another one again
         );
     }
 }
+

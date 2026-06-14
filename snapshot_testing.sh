@@ -6,7 +6,7 @@ cd "$ROOT"
 
 cargo build
 
-GHERKINFMT="$ROOT/target/debug/gherkinfmt"
+GHERKINFMT="$ROOT/target/debug/gherkin-fmt"
 
 for formatter_dir in "$ROOT"/testing/; do
   for input in "$formatter_dir"*.feature; do
@@ -20,4 +20,3 @@ for formatter_dir in "$ROOT"/testing/; do
     "$GHERKINFMT" --debug --output "$result" "$input"
   done
 done
-
