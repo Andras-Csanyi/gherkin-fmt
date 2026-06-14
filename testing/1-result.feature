@@ -1,6 +1,5 @@
 Feature: Case 1 test
 
-
   Misaligned story part line 1
   Misaligned story part line 2
   Misaligned story part line 3
