@@ -1,3 +1,4 @@
+mod background;
 mod config;
 mod debug;
 mod feature;

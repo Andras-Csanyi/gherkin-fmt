@@ -14,24 +14,20 @@ Executable binary name: `gherkinfmt`
 Initial version: 0.1.0
 after successful build the executable cli is under the `src/cli/target/` directory
 
-## Crates
+## Structure
 
-The workspace consists of two crates:
-
-- `gherkin-fmt-cli`
-- `gherkin-fmt`
-
-The `gherkin-fmt-cli` crate contains the cli portion of the formatter.
-The `gherkin-fmt` crate contains the actual formatter logic.
+The project is a CLI project.
+The cli codebase is a module separated into the `src/cli/` module.
+The codebase that contains the formatters is located in the `src/formatters/` module.
 
 ## Dependencies
 
 We use the latest versions from the dependencies
 
-- clap for cli implementation
-- anyhow for error handling
+- `clap` for cli implementation
+- `anyhow` for error handling
 
-## gherkin-fmt crate code layers
+## Formatters module structure
 
 The directory structure in the `{project_root}/spec/formatters` directory
 represents the hierarchy and scope of the formatters.
@@ -54,7 +50,7 @@ levels of specifications:
 - block level integration to have a clear picture about how the different rules
   work together, these cases are described in the `integration.feature` files.
 
-## gherkin-fmt-cli crate
+## The cli module
 
 The cli code is written in Clap's derive style.
 

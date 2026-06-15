@@ -1,5 +1,14 @@
 const STEP_KEYWORDS: &[&str] = &["Given", "When", "Then", "And", "But", "*"];
 
+const BACKGROUND_BLOCK_BOUNDARIES: &[&str] = &[
+    "Background:",
+    "Scenario Outline:",
+    "Scenario:",
+    "Rule:",
+    "Examples:",
+    "Example:",
+];
+
 pub(crate) fn split_lines(input: &str) -> (Vec<String>, bool) {
     let ends_with_newline = input.ends_with('\n');
     let lines = input.lines().map(String::from).collect();
@@ -20,31 +29,26 @@ pub(crate) fn leading_spaces_count(line: &str) -> usize {
         .count()
 }
 
-pub(crate) fn is_scenario_line(line: &str) -> bool {
-    let trimmed = line.trim_start();
-    trimmed.starts_with("Scenario Outline:") || trimmed.starts_with("Scenario:")
+pub(crate) fn is_background_line(line: &str) -> bool {
+    line.trim_start().starts_with("Background:")
 }
 
-pub(crate) fn find_scenario_line_indices(lines: &[String]) -> Vec<usize> {
+pub(crate) fn find_background_line_indices(lines: &[String]) -> Vec<usize> {
     lines
         .iter()
         .enumerate()
-        .filter_map(|(index, line)| is_scenario_line(line).then_some(index))
+        .filter_map(|(index, line)| is_background_line(line).then_some(index))
         .collect()
 }
 
-pub(crate) fn scenario_block_end(lines: &[String], scenario_index: usize) -> usize {
-    for index in (scenario_index + 1)..lines.len() {
-        if is_scenario_line(&lines[index]) || is_background_line(&lines[index]) {
+pub(crate) fn background_block_end(lines: &[String], background_index: usize) -> usize {
+    for index in (background_index + 1)..lines.len() {
+        if is_background_block_boundary(&lines[index]) {
             return index;
         }
     }
 
     lines.len()
-}
-
-fn is_background_line(line: &str) -> bool {
-    line.trim_start().starts_with("Background:")
 }
 
 pub(crate) fn is_step_line(line: &str) -> bool {
@@ -55,6 +59,17 @@ pub(crate) fn is_step_line(line: &str) -> bool {
         || ["given", "when", "then", "and", "but"]
             .iter()
             .any(|keyword| step_starts_with_ignore_case(trimmed, keyword))
+}
+
+fn is_background_block_boundary(line: &str) -> bool {
+    let trimmed = line.trim_start();
+    if trimmed.starts_with('@') {
+        return true;
+    }
+
+    BACKGROUND_BLOCK_BOUNDARIES
+        .iter()
+        .any(|keyword| trimmed.starts_with(keyword))
 }
 
 fn step_starts_with(line: &str, keyword: &str) -> bool {
@@ -76,4 +91,3 @@ fn step_starts_with_ignore_case(line: &str, keyword: &str) -> bool {
 
     line.len() == keyword.len() || line.as_bytes()[keyword.len()] == b' '
 }
-

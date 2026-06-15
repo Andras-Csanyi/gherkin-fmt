@@ -1,6 +1,7 @@
 use anyhow::Result;
 
 use super::Config;
+use super::background;
 use super::feature;
 use super::scenario;
 use super::step;
@@ -13,6 +14,7 @@ pub fn format(
     file_name: Option<&str>,
 ) -> Result<String> {
     let content = feature::format_block(input, config, debug_enabled, file_name)?;
+    let content = background::format_block(&content, config, debug_enabled)?;
     let content = scenario::format_block(&content, config, debug_enabled)?;
     let content = step::format_block(&content, config, debug_enabled)?;
     table::format_block(&content, config, debug_enabled)
@@ -96,6 +98,30 @@ When a table step
     Given extra spaces here
     When a table step
       | a | b |
+"#;
+
+        assert_eq!(
+            format(input, &Config::default(), false, None).unwrap(),
+            expected
+        );
+    }
+
+    #[test]
+    fn format_applies_feature_background_and_scenario_block_rules() {
+        let input = r#"Feature: test feature
+Background: test background
+Given a background step
+Scenario: test scenario
+Given a scenario step
+"#;
+
+        let expected = r#"Feature: test feature
+
+  Background: test background
+    Given a background step
+
+  Scenario: test scenario
+    Given a scenario step
 "#;
 
         assert_eq!(
