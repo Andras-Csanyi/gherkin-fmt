@@ -2,7 +2,7 @@ use anyhow::Result;
 
 use crate::formatters::Config;
 
-use super::helpers::{find_feature_line_index, join_lines, leading_spaces_count, split_lines};
+use super::helpers::{capitalize_feature_keyword, find_feature_line_index, join_lines, split_lines};
 
 pub const RULE_NAME: &str = "`Feature` block is aligned to 0 place";
 
@@ -15,11 +15,7 @@ pub fn apply(input: &str, config: &Config) -> Result<String> {
 }
 
 fn align_feature_line(line: &str) -> String {
-    if leading_spaces_count(line) == 0 {
-        return line.to_string();
-    }
-
-    line.trim_start().to_string()
+    capitalize_feature_keyword(line.trim_start())
 }
 
 #[cfg(test)]
@@ -65,6 +61,17 @@ mod tests {
 "#;
 
         let expected = r#"Feature: this block is at place 4
+"#;
+
+        assert_eq!(apply(input, &Config::default()).unwrap(), expected);
+    }
+
+    #[test]
+    fn capitalizes_lowercase_feature_keyword_at_zero_place() {
+        let input = r#"feature: test feature
+"#;
+
+        let expected = r#"Feature: test feature
 "#;
 
         assert_eq!(apply(input, &Config::default()).unwrap(), expected);

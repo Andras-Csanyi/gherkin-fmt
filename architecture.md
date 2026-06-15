@@ -24,7 +24,8 @@ The codebase that contains the formatters is located in the `src/formatters/` mo
 
 We use the latest versions from the dependencies
 
-- `clap` for cli implementation
+- `clap` for cli implementation with `derive` features
+- `clap_stdin` to manage the reading from `stdin`
 - `anyhow` for error handling
 
 ## Formatters module structure
@@ -53,6 +54,7 @@ levels of specifications:
 ## The cli module
 
 The cli code is written in Clap's derive style.
+The cli is capable of reading from `stdin` and write to `stdout`
 
 ## Error handling
 

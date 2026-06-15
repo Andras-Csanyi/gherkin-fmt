@@ -36,4 +36,3 @@ Feature: Step definition formatter integration tests
       | header1           | header2               | header3      | header4     |
       | asdf              | adfasdfasdfasdfadfasd | sdfadddfdasd | lkad        |
       | asdfasdrfwafdafds | kad                   | adfasd       | jlaksdfasdf |
-
