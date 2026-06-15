@@ -30,7 +30,31 @@ pub(crate) fn leading_spaces_count(line: &str) -> usize {
 }
 
 pub(crate) fn is_background_line(line: &str) -> bool {
-    line.trim_start().starts_with("Background:")
+    starts_with_background_keyword(line.trim_start())
+}
+
+pub(crate) fn capitalize_background_keyword(content: &str) -> String {
+    const KEYWORD: &str = "Background:";
+
+    if starts_with_background_keyword(content) {
+        return format!("{}{}", KEYWORD, &content[KEYWORD.len()..]);
+    }
+
+    content.to_string()
+}
+
+fn starts_with_background_keyword(line: &str) -> bool {
+    const KEYWORD: &str = "Background:";
+
+    if line.len() < KEYWORD.len() {
+        return false;
+    }
+
+    if !line[..KEYWORD.len()].eq_ignore_ascii_case(KEYWORD) {
+        return false;
+    }
+
+    line.len() == KEYWORD.len() || line.as_bytes()[KEYWORD.len()] == b' '
 }
 
 pub(crate) fn find_background_line_indices(lines: &[String]) -> Vec<usize> {
@@ -67,8 +91,13 @@ fn is_background_block_boundary(line: &str) -> bool {
         return true;
     }
 
+    if starts_with_background_keyword(trimmed) {
+        return true;
+    }
+
     BACKGROUND_BLOCK_BOUNDARIES
         .iter()
+        .filter(|keyword| **keyword != "Background:")
         .any(|keyword| trimmed.starts_with(keyword))
 }
 

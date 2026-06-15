@@ -1,6 +1,7 @@
 mod empty_line_before_rule;
 mod helpers;
 mod indentation_rule;
+mod keyword_is_capital_rule;
 mod steps_in_background_rule;
 
 use anyhow::Result;
@@ -11,8 +12,11 @@ use super::debug;
 pub fn format_block(input: &str, config: &Config, debug_enabled: bool) -> Result<String> {
     debug::log(debug_enabled, "Starting Background block formatting");
 
+    debug::log_rule(debug_enabled, keyword_is_capital_rule::RULE_NAME);
+    let mut content = keyword_is_capital_rule::apply(input, config)?;
+
     debug::log_rule(debug_enabled, empty_line_before_rule::RULE_NAME);
-    let mut content = empty_line_before_rule::apply(input, config)?;
+    content = empty_line_before_rule::apply(&content, config)?;
 
     debug::log_rule(debug_enabled, indentation_rule::RULE_NAME);
     content = indentation_rule::apply(&content, config)?;
@@ -119,6 +123,10 @@ And why not another one again
 
     #[test]
     fn rule_names_match_spec_rule_keyword() {
+        assert_eq!(
+            keyword_is_capital_rule::RULE_NAME,
+            "the `Background` keyword is capitalized"
+        );
         assert_eq!(
             empty_line_before_rule::RULE_NAME,
             "empty line before `Background` block"

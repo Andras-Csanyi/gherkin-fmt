@@ -44,7 +44,18 @@ pub(crate) fn scenario_block_end(lines: &[String], scenario_index: usize) -> usi
 }
 
 fn is_background_line(line: &str) -> bool {
-    line.trim_start().starts_with("Background:")
+    const KEYWORD: &str = "Background:";
+    let trimmed = line.trim_start();
+
+    if trimmed.len() < KEYWORD.len() {
+        return false;
+    }
+
+    if !trimmed[..KEYWORD.len()].eq_ignore_ascii_case(KEYWORD) {
+        return false;
+    }
+
+    trimmed.len() == KEYWORD.len() || trimmed.as_bytes()[KEYWORD.len()] == b' '
 }
 
 pub(crate) fn is_step_line(line: &str) -> bool {
