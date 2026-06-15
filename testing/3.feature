@@ -32,3 +32,9 @@ Feature: Step definition formatter integration tests
     and here are <more>
     Then this is an "input parameter"
     and a more "    funky    " and "   another"
+
+    examples:
+    |header1|header2|header3|header4|
+    |asdf|adfasdfasdfasdfadfasd|sdfadddfdasd|lkad|
+    |asdfasdrfwafdafds|kad|adfasd|jlaksdfasdf|
+

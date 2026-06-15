@@ -5,7 +5,7 @@ const STEP_KEYWORDS: &[&str] = &["Given", "When", "Then", "And", "But", "*"];
 pub(crate) struct TableBlock {
     pub start: usize,
     pub end: usize,
-    pub parent_step_index: usize,
+    pub parent_index: usize,
 }
 
 pub(crate) fn split_lines(input: &str) -> (Vec<String>, bool) {
@@ -52,11 +52,11 @@ pub(crate) fn find_table_blocks(lines: &[String]) -> Vec<TableBlock> {
             index += 1;
         }
 
-        if let Some(parent_step_index) = find_parent_step_index(lines, start) {
+        if let Some(parent_index) = find_parent_index(lines, start) {
             blocks.push(TableBlock {
                 start,
                 end: index,
-                parent_step_index,
+                parent_index,
             });
         }
     }
@@ -94,14 +94,14 @@ pub(crate) fn format_table_row(indent: &str, cells: &[String]) -> String {
     row
 }
 
-fn find_parent_step_index(lines: &[String], table_start: usize) -> Option<usize> {
+fn find_parent_index(lines: &[String], table_start: usize) -> Option<usize> {
     for index in (0..table_start).rev() {
         let line = &lines[index];
         if line.trim().is_empty() {
             continue;
         }
 
-        if is_step_line(line) {
+        if is_step_line(line) || is_examples_line(line) {
             return Some(index);
         }
 
@@ -109,6 +109,21 @@ fn find_parent_step_index(lines: &[String], table_start: usize) -> Option<usize>
     }
 
     None
+}
+
+fn is_examples_line(line: &str) -> bool {
+    const KEYWORD: &str = "Examples:";
+
+    let trimmed = line.trim_start();
+    if trimmed.len() < KEYWORD.len() {
+        return false;
+    }
+
+    if !trimmed[..KEYWORD.len()].eq_ignore_ascii_case(KEYWORD) {
+        return false;
+    }
+
+    trimmed.len() == KEYWORD.len() || trimmed.as_bytes()[KEYWORD.len()] == b' '
 }
 
 fn step_starts_with(line: &str, keyword: &str) -> bool {

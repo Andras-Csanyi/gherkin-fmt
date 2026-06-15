@@ -1,7 +1,6 @@
 Feature: Vertical table is indented by 1 level in steps
 
-  In `Given`,`When`, `Then` and `But` blocks the vertical table
-  is indented by 1 level.
+  In `Given`,`When`, `Then`, `But` and `Examples` blocks the tables are indented by 1 level.
 
   Rule: Vertical table is indented by 1 level in steps
 
@@ -101,6 +100,63 @@ Feature: Vertical table is indented by 1 level in steps
     Then the output is the following
     ```gherkin
     Given something is given
+      | header 1 | header 2 | header 3 |
+      | value 1  | value 2  | value 3  |
+      |v 1       | v 2      | v 3      |
+      |a 1       | a 2      | a 3      |
+    ```
+
+  Scenario: mixed indentation table in `When` block
+    Given the following input is provided
+    ```gherkin
+    When something is given
+                | header 1 | header 2 | header 3 |
+                      | value 1  | value 2  | value 3  |
+                |v 1       | v 2      | v 3      |
+          |a 1       | a 2      | a 3      |
+    ```
+    When the formatter formats the file
+    Then the output is the following
+    ```gherkin
+    When something is given
+      | header 1 | header 2 | header 3 |
+      | value 1  | value 2  | value 3  |
+      |v 1       | v 2      | v 3      |
+      |a 1       | a 2      | a 3      |
+    ```
+
+  Scenario: mixed indentation table in `Then` block
+    Given the following input is provided
+    ```gherkin
+    Then something is given
+                | header 1 | header 2 | header 3 |
+                      | value 1  | value 2  | value 3  |
+                |v 1       | v 2      | v 3      |
+          |a 1       | a 2      | a 3      |
+    ```
+    When the formatter formats the file
+    Then the output is the following
+    ```gherkin
+    Then something is given
+      | header 1 | header 2 | header 3 |
+      | value 1  | value 2  | value 3  |
+      |v 1       | v 2      | v 3      |
+      |a 1       | a 2      | a 3      |
+    ```
+
+  Scenario: mixed indentation table in `Examples` block
+    Given the following input is provided
+    ```gherkin
+    Examples:
+                | header 1 | header 2 | header 3 |
+                      | value 1  | value 2  | value 3  |
+                |v 1       | v 2      | v 3      |
+          |a 1       | a 2      | a 3      |
+    ```
+    When the formatter formats the file
+    Then the output is the following
+    ```gherkin
+    Examples:
       | header 1 | header 2 | header 3 |
       | value 1  | value 2  | value 3  |
       |v 1       | v 2      | v 3      |

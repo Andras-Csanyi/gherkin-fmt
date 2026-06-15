@@ -2,6 +2,7 @@ use anyhow::Result;
 
 use super::Config;
 use super::background;
+use super::examples;
 use super::feature;
 use super::scenario;
 use super::scenario_outline;
@@ -19,6 +20,7 @@ pub fn format(
     let content = scenario_outline::format_block(&content, config, debug_enabled)?;
     let content = scenario::format_block(&content, config, debug_enabled)?;
     let content = step::format_block(&content, config, debug_enabled)?;
+    let content = examples::format_block(&content, config, debug_enabled)?;
     table::format_block(&content, config, debug_enabled)
 }
 
@@ -148,6 +150,32 @@ Given a scenario step
 
   Scenario: test scenario
     Given a scenario step
+"#;
+
+        assert_eq!(
+            format(input, &Config::default(), false, None).unwrap(),
+            expected
+        );
+    }
+
+    #[test]
+    fn format_applies_scenario_outline_examples_and_table_block_rules() {
+        let input = r#"Feature: test feature
+Scenario Outline: test scenario outline
+Given an outline step
+examples:
+|header 1|header 2|
+|value 1|value 2|
+"#;
+
+        let expected = r#"Feature: test feature
+
+  Scenario Outline: test scenario outline
+    Given an outline step
+
+    Examples:
+      | header 1 | header 2 |
+      | value 1  | value 2  |
 "#;
 
         assert_eq!(
