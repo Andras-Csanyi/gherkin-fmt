@@ -20,6 +20,8 @@ The formatter at this point satisfies my needs which may be little for your need
 
 ## Installation
 
+The below requires Rust being installed on your machine.
+
 ```bash
 cargo install gherkin-fmt
 ```
@@ -30,6 +32,20 @@ cargo install gherkin-fmt
 gherkinfmt input.feature [output.feature] --debug
 ```
 
+## Conform integration
+
+The formatter can read from `STDIN` like below:
+
+```bash
+echo "feature: something" | gherkinfmt -- -
+```
+
+Where the result is going to be:
+
+```bash
+Feature: something
+```
+
 ## Future plans
 
 - configuration file
@@ -38,4 +54,3 @@ gherkinfmt input.feature [output.feature] --debug
 - performance improvements if any of it is necessary
 - `cargo binstall` installation
 - adding it to Homebrew
-
