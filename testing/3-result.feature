@@ -17,3 +17,23 @@ Feature: Step definition formatter integration tests
     Then this then should be formatter
     But not the second one
     And this line has multiple <input> <parameters>
+
+  Scenario Outline: let's test the templates and parameters
+    Given not a capital start with a table
+      | key  | value  |
+      | key2 | value2 |
+      | key3 | value3 |
+    And another crazy table
+      | header1           | header2               | header3      | header4     |
+      | asdf              | adfasdfasdfasdfadfasd | sdfadddfdasd | lkad        |
+      | asdfasdrfwafdafds | kad                   | adfasd       | jlaksdfasdf |
+    When this is a <tag> and <another> <one>
+    And here are <more>
+    Then this is an "input parameter"
+    And a more "    funky    " and "   another"
+
+    Examples:
+      | header1           | header2               | header3      | header4     |
+      | asdf              | adfasdfasdfasdfadfasd | sdfadddfdasd | lkad        |
+      | asdfasdrfwafdafds | kad                   | adfasd       | jlaksdfasdf |
+
