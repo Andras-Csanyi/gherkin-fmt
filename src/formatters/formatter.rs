@@ -4,6 +4,7 @@ use super::Config;
 use super::background;
 use super::feature;
 use super::scenario;
+use super::scenario_outline;
 use super::step;
 use super::table;
 
@@ -15,6 +16,7 @@ pub fn format(
 ) -> Result<String> {
     let content = feature::format_block(input, config, debug_enabled, file_name)?;
     let content = background::format_block(&content, config, debug_enabled)?;
+    let content = scenario_outline::format_block(&content, config, debug_enabled)?;
     let content = scenario::format_block(&content, config, debug_enabled)?;
     let content = step::format_block(&content, config, debug_enabled)?;
     table::format_block(&content, config, debug_enabled)
@@ -119,6 +121,30 @@ Given a scenario step
 
   Background: test background
     Given a background step
+
+  Scenario: test scenario
+    Given a scenario step
+"#;
+
+        assert_eq!(
+            format(input, &Config::default(), false, None).unwrap(),
+            expected
+        );
+    }
+
+    #[test]
+    fn format_applies_feature_and_scenario_outline_block_rules() {
+        let input = r#"Feature: test feature
+Scenario Outline: test scenario outline
+Given an outline step
+Scenario: test scenario
+Given a scenario step
+"#;
+
+        let expected = r#"Feature: test feature
+
+  Scenario Outline: test scenario outline
+    Given an outline step
 
   Scenario: test scenario
     Given a scenario step

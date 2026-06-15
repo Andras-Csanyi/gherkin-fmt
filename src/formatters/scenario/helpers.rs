@@ -22,7 +22,11 @@ pub(crate) fn leading_spaces_count(line: &str) -> usize {
 
 pub(crate) fn is_scenario_line(line: &str) -> bool {
     let trimmed = line.trim_start();
-    trimmed.starts_with("Scenario Outline:") || trimmed.starts_with("Scenario:")
+    if is_scenario_outline_line(trimmed) {
+        return false;
+    }
+
+    trimmed.starts_with("Scenario:")
 }
 
 pub(crate) fn find_scenario_line_indices(lines: &[String]) -> Vec<usize> {
@@ -35,12 +39,31 @@ pub(crate) fn find_scenario_line_indices(lines: &[String]) -> Vec<usize> {
 
 pub(crate) fn scenario_block_end(lines: &[String], scenario_index: usize) -> usize {
     for index in (scenario_index + 1)..lines.len() {
-        if is_scenario_line(&lines[index]) || is_background_line(&lines[index]) {
+        if is_scenario_line(&lines[index])
+            || is_background_line(&lines[index])
+            || is_scenario_outline_line(&lines[index].trim_start())
+        {
             return index;
         }
     }
 
     lines.len()
+}
+
+fn is_scenario_outline_line(trimmed: &str) -> bool {
+    let colon_index = match trimmed.find(':') {
+        Some(index) => index,
+        None => return false,
+    };
+
+    let before_colon = &trimmed[..colon_index];
+    let mut parts = before_colon.split(' ');
+    match (parts.next(), parts.next()) {
+        (Some(first), Some(second)) if parts.next().is_none() => {
+            first.eq_ignore_ascii_case("Scenario") && second.eq_ignore_ascii_case("Outline")
+        }
+        _ => false,
+    }
 }
 
 fn is_background_line(line: &str) -> bool {

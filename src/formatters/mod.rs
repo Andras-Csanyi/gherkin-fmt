@@ -4,6 +4,7 @@ mod debug;
 mod feature;
 pub mod formatter;
 mod scenario;
+mod scenario_outline;
 mod step;
 mod table;
 
