@@ -1,5 +1,5 @@
 use std::fs;
-use std::io::{self, Write};
+use std::io::{self, Read, Write};
 use std::path::PathBuf;
 
 use anyhow::{Context, Result};
@@ -41,9 +41,7 @@ pub fn run(cli: Cli) -> Result<()> {
     let reads_from_stdin = input.is_stdin();
     let source_label = input.filename().to_owned();
 
-    let input_content = input
-        .contents()
-        .context("failed to read input content")?;
+    let input_content = read_input_content(input)?;
 
     let file_name = if reads_from_stdin {
         None
@@ -61,6 +59,17 @@ pub fn run(cli: Cli) -> Result<()> {
         reads_from_stdin,
         &source_label,
     )
+}
+
+fn read_input_content(input: FileOrStdin<String>) -> Result<String> {
+    let mut reader = input
+        .into_reader()
+        .context("failed to open input source")?;
+    let mut buffer = String::new();
+    reader
+        .read_to_string(&mut buffer)
+        .context("failed to read input content")?;
+    Ok(buffer)
 }
 
 fn write_output(
