@@ -1,7 +1,7 @@
 [package]
 name = "gherkin-fmt"
 resolver = "3"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2024"
 readme = "README.md"
 description = "An opinionated command line Gherkin (*.feature) files formatter"
