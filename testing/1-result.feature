@@ -34,3 +34,27 @@ Feature: Case 1 test
       | header1 | header2 | header3 |
       | value1  | value2  | value3  |
     Then the whole must be formatted correctly
+
+  Scenario: raw content
+    Given this step has raw content
+    ```gherkin
+    Feature: whatever feature
+      Scenario: whatever scenario
+        Given whatever step
+        And the whole must remain unchanged
+    ```
+    But this but must be formatted
+
+  Scenario: raw content
+    Given this step has raw content
+    And this and that
+    ```gherkin
+    feature: whatever feature
+    scenario: whatever scenario
+    given whatever step
+    and the whole must remain unchanged
+    ```
+    When whatever
+    And this whatever
+    But this but must be formatted
+    Then whateverium
