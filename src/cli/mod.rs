@@ -10,8 +10,11 @@ use clap_stdin::FileOrStdin;
 use crate::formatters::Config;
 use crate::formatters::formatter::format;
 
+#[cfg(test)]
+mod tests;
+
 #[derive(Parser)]
-#[command(name = "gherkinfmt", version, about = "Format Gherkin feature files")]
+#[command(name = "gherkin-fmt", version, about = "Format Gherkin feature files")]
 pub struct Cli {
     /// Print debug information during formatting
     #[arg(long)]
@@ -33,7 +36,6 @@ pub fn run(cli: Cli) -> Result<()> {
             Cli::command()
                 .print_help()
                 .context("failed to print help information")?;
-            println!();
             return Ok(());
         }
     };
@@ -97,93 +99,4 @@ fn write_output(
     }
 
     Ok(())
-}
-
-#[cfg(test)]
-mod tests {
-    use std::env;
-    use std::io::Write;
-    use std::process::{Command, Stdio};
-
-    use super::*;
-
-    #[test]
-    fn command_has_expected_name() {
-        let command = Cli::command();
-        assert_eq!(command.get_name(), "gherkinfmt");
-    }
-
-    #[test]
-    fn command_has_version_set() {
-        let command = Cli::command();
-        assert!(command.get_version().is_some());
-    }
-
-    #[test]
-    fn file_or_stdin_recognizes_dash() {
-        let cli = Cli::try_parse_from(["gherkinfmt", "-"]).expect("failed to parse cli args");
-        let input = cli.input.expect("input argument should be present");
-        assert!(input.is_stdin());
-        assert!(!input.is_file());
-        assert_eq!(input.filename(), "-");
-    }
-
-    #[test]
-    fn file_or_stdin_recognizes_file_path() {
-        let cli =
-            Cli::try_parse_from(["gherkinfmt", "test.feature"]).expect("failed to parse cli args");
-        let input = cli.input.expect("input argument should be present");
-        assert!(input.is_file());
-        assert!(!input.is_stdin());
-        assert_eq!(input.filename(), "test.feature");
-    }
-
-    fn gherkin_fmt_binary() -> PathBuf {
-        if let Ok(path) = env::var("CARGO_BIN_EXE_gherkin-fmt") {
-            return PathBuf::from(path);
-        }
-
-        PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(format!(
-            "target/debug/gherkin-fmt{}",
-            env::consts::EXE_SUFFIX
-        ))
-    }
-
-    #[test]
-    fn reads_from_stdin_and_writes_to_stdout() {
-        let binary = gherkin_fmt_binary();
-        assert!(
-            binary.exists(),
-            "gherkin-fmt binary not found at {}",
-            binary.display()
-        );
-
-        let mut child = Command::new(binary)
-            .arg("--")
-            .arg("-")
-            .stdin(Stdio::piped())
-            .stdout(Stdio::piped())
-            .stderr(Stdio::piped())
-            .spawn()
-            .expect("failed to spawn gherkin-fmt");
-
-        child
-            .stdin
-            .as_mut()
-            .expect("failed to open stdin")
-            .write_all(b"feature: test feature\n")
-            .expect("failed to write to stdin");
-
-        let output = child.wait_with_output().expect("failed to wait for gherkin-fmt");
-
-        assert!(
-            output.status.success(),
-            "stderr: {}",
-            String::from_utf8_lossy(&output.stderr)
-        );
-        assert_eq!(
-            String::from_utf8(output.stdout).expect("stdout is not valid utf-8"),
-            "Feature: test feature\n"
-        );
-    }
 }
