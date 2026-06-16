@@ -33,3 +33,27 @@ Misaligned story part line 3
     |header1|header2|header3|
     |value1|value2|value3|
   Then the whole must be formatted correctly
+
+  Scenario: raw content
+    given this step has raw content
+    ```gherkin
+    Feature: whatever feature
+      Scenario: whatever scenario
+        Given whatever step
+        And the whole must remain unchanged
+    ```
+    but this but must be formatted
+
+  Scenario: raw content
+    given this step has raw content
+    and this and that
+    ```gherkin
+    feature: whatever feature
+    scenario: whatever scenario
+    given whatever step
+    and the whole must remain unchanged
+    ```
+    when whatever
+    And this whatever
+    but this but must be formatted
+    Then whateverium

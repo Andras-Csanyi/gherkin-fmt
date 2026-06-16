@@ -4,6 +4,7 @@ use super::Config;
 use super::background;
 use super::examples;
 use super::feature;
+use super::raw_text;
 use super::scenario;
 use super::scenario_outline;
 use super::step;
@@ -15,13 +16,15 @@ pub fn format(
     debug_enabled: bool,
     file_name: Option<&str>,
 ) -> Result<String> {
+    let original = input;
     let content = feature::format_block(input, config, debug_enabled, file_name)?;
     let content = background::format_block(&content, config, debug_enabled)?;
     let content = scenario_outline::format_block(&content, config, debug_enabled)?;
     let content = scenario::format_block(&content, config, debug_enabled)?;
     let content = step::format_block(&content, config, debug_enabled)?;
     let content = examples::format_block(&content, config, debug_enabled)?;
-    table::format_block(&content, config, debug_enabled)
+    let content = table::format_block(&content, config, debug_enabled)?;
+    raw_text::format_block(&content, original, config, debug_enabled)
 }
 
 #[cfg(test)]
@@ -176,6 +179,41 @@ examples:
     Examples:
       | header 1 | header 2 |
       | value 1  | value 2  |
+"#;
+
+        assert_eq!(
+            format(input, &Config::default(), false, None).unwrap(),
+            expected
+        );
+    }
+
+    #[test]
+    fn format_preserves_raw_text_blocks_in_steps() {
+        let input = r#"Feature: test
+Scenario: raw text
+given a step with backticks
+  ```
+  And   raw   backtick   content
+  | not | a | table |
+  ```
+and a step with quotes
+  """
+  and   raw   quote   content
+  """
+"#;
+
+        let expected = r#"Feature: test
+
+  Scenario: raw text
+    Given a step with backticks
+  ```
+  And   raw   backtick   content
+  | not | a | table |
+  ```
+    And a step with quotes
+  """
+  and   raw   quote   content
+  """
 "#;
 
         assert_eq!(
