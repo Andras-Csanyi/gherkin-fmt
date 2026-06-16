@@ -15,6 +15,7 @@ Feature: There is an empty line before every `Examples` block
 
         Examples:
     ```
+
   Scenario: Removing extra lines before the `Examples` block
     Given the following input is provided
     ```gherkin

@@ -3,7 +3,6 @@ Feature: Step formatter
   A step block starts with `Given`, `When`, `Then`, `And`, `But`
   They are simple sentences
   They can contain template parameters between `<` and `>` characters
-
   Rule: Template parameters in Step definitionsl
 
   Scenario: Correct template parameter in Given
@@ -49,6 +48,7 @@ Feature: Step formatter
     ```gherkin
     Given this has the <parameter> parameter
     ```
+
   Scenario: Correct template parameter in Given
     Given we have the following input
     ```gherkin
@@ -92,6 +92,7 @@ Feature: Step formatter
     ```gherkin
     Given this has the <parameter> parameter and another <one>
     ```
+
   Scenario: Correct template parameter in When
     Given we have the following input
     ```gherkin
@@ -135,6 +136,7 @@ Feature: Step formatter
     ```gherkin
     When this has the <parameter> parameter
     ```
+
   Scenario: Correct template parameter in When
     Given we have the following input
     ```gherkin
@@ -222,6 +224,7 @@ Feature: Step formatter
     ```gherkin
     Then this has the <parameter> parameter
     ```
+
   Scenario: Correct template parameter in Then
     Given we have the following input
     ```gherkin

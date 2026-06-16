@@ -15,6 +15,7 @@ Feature: There is an empty line before every `Scenario Outline` block
 
       Scenario Outline: This is a scenario with the same indentation as the Feature
     ```
+
   Scenario: Removing extra lines before the `Scenario Outline` block
     Given the following input is provided
     ```gherkin

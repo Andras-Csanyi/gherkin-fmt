@@ -3,7 +3,6 @@ Feature: Step definition keywords are formatted to be capital letters
   The `Given`, `When`, `Then`, `And` and `But` step definitions keywords
   always must start with capital letters.
   It just looks better and leads the eye.
-
   Rule: Step definition keywords start with capital letters
 
   Scenario: The correct given flows through

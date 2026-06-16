@@ -2,7 +2,6 @@ Feature: Column width padding
 
   A column is always as wide as the widest cell.
   A column content has a 1 space right padding.
-
   Rule: column width padding
 
   Scenario: header, a line and two columns
