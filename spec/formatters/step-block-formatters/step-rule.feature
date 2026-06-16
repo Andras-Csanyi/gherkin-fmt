@@ -3,7 +3,6 @@ Feature: Step formatter
   A step block starts with `Given`, `When`, `Then`, `And`, `But`
   They are simple sentences
   Between the words there is only one space
-
   Rule: one space between words in steps
 
   Scenario: Simple `Given` step

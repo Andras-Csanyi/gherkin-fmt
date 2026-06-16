@@ -18,7 +18,7 @@ The formatter at this point satisfies my needs which may be little for your need
 - formats horizontal and vertical tables
 - Debug mode for tracking formatting rules
 
-## Installation
+## Installation and Update
 
 The below requires Rust being installed on your machine.
 
@@ -26,13 +26,18 @@ The below requires Rust being installed on your machine.
 cargo install gherkin-fmt
 ```
 
+To update the cli just run the above command again.
+
 ## Usage
 
+### As CLI
+
 ```bash
-gherkinfmt input.feature [output.feature] --debug
+gherkinfmt --output [filepath] --debug filepath
+
 ```
 
-## Conform integration
+### As STDIN and write to STDOUT
 
 The formatter can read from `STDIN` like below:
 
@@ -44,6 +49,27 @@ Where the result is going to be:
 
 ```bash
 Feature: something
+```
+
+## Conform integration
+
+This is not fully tested yet, but works, but may have bugs...
+
+```lua
+return {
+  "stevearc/conform.nvim",
+  opts = {
+    log_level = vim.log.levels.DEBUG,
+    formatters_by_ft = {
+      cucumber = { "gherkin_fmt" },
+    },
+      gherkin_fmt = {
+        command = "gherkin-fmt",
+        args = { "-" },
+      },
+    },
+  },
+}
 ```
 
 ## Future plans

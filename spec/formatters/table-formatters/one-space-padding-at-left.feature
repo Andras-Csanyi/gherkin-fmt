@@ -1,7 +1,6 @@
 Feature: One space left padding in the cell
 
   Every cell in the table has one space left padding for readability
-
   Rule: One space left padding in the cell
 
   Scenario: Simple case, one line and three columns

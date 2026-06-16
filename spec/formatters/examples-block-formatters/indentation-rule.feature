@@ -4,7 +4,6 @@ Feature: Indentation of `Examples` blocks in a file
   The "Scenario Outline" blocks are indented right by 1 level in accordance wiht the provided
   configuration values.
   The "Examples" block is indented by 1 level to the "Scenario Outline" block.
-
   Rule: `Examples` blocks are indented by level 1 to `Scenario Outline` block
 
   Scenario: Shifting right an `Examples` block
@@ -22,6 +21,7 @@ Feature: Indentation of `Examples` blocks in a file
 
       Examples:
     ```
+
   Scenario: Shifting right two `Examples` blocks
     Given the following configuration values are provided
       | indent-size | 2 spaces |

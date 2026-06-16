@@ -3,7 +3,6 @@ Feature: The story content of a feature block is indented by 1 level
   A feature block may contain the user story
   Right here where this text is located
   This content also needs to be indented by 1 level
-
   Rule: `Feature` block's story is indented by 1 level
 
   Scenario: one line user story is aligned
@@ -22,6 +21,7 @@ Feature: The story content of a feature block is indented by 1 level
 
       This is the unaligned single line user story
     ```
+
   Scenario: two lines user story is aligned
     Given the following configuration values are provided
       | indent-size | 2 spaces |
@@ -40,6 +40,7 @@ Feature: The story content of a feature block is indented by 1 level
       This is the first unaligned line
       This is the second unaligned line
     ```
+
   Scenario: multi line user story is aligned
     Given the following configuration values are provided
       | indent-size | 2 spaces |

@@ -1,7 +1,6 @@
 Feature: Vertical table is indented by 1 level in steps
 
   In `Given`,`When`, `Then`, `But` and `Examples` blocks the tables are indented by 1 level.
-
   Rule: Vertical table is indented by 1 level in steps
 
   Scenario: Table is not aligned
@@ -44,6 +43,7 @@ Feature: Vertical table is indented by 1 level in steps
     Given something is given
       | header 1 | header 2 | header 3 |
     ```
+
   Scenario: Table is aligned, multiline
     Given the following input is provided
     ```gherkin

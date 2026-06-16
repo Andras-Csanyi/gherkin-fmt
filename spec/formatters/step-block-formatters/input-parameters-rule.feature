@@ -3,7 +3,6 @@ Feature: Steps may contain input parameters between `"` and `"` characters
   A step block starts with `Given`, `When`, `Then`, `And`, `But`
   They are simple sentences
   They may contain input parameters between `"` and `"` characters
-
   Rule: In Step definitions the content between `"` and `"` remains as it is
 
   Scenario: Given step with a single input parameter and it remains as it is

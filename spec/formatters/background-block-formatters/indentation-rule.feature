@@ -1,10 +1,9 @@
 Feature: Indentation of Background block in a file
 
-  A feature file formatting starts with a birds-eye view where the 
+  A feature file formatting starts with a birds-eye view where the
   "Feature" represents a single block
-  and the "Background" blocks are indented right in accordance wiht the provided
+  And the "Background" blocks are indented right in accordance wiht the provided
   configuration values.
-
   Rule: `Background` blocks are indented by level 1 to `Feature` blocks
 
   Scenario: Shifting right a scenario block
