@@ -27,6 +27,7 @@ We use the latest versions from the dependencies
 - `clap` for cli implementation with `derive` features
 - `clap_stdin` to manage the reading from `stdin`
 - `anyhow` for error handling
+- `assert_cmd` for testing the cli safely in CI
 
 ## Formatters module structure
 
@@ -55,6 +56,11 @@ levels of specifications:
 
 The cli code is written in Clap's derive style.
 The cli is capable of reading from `stdin` and write to `stdout`
+
+### Testing of the CLI
+
+We use `assert_cmd` to test the cli safely and without any environment
+specificity.
 
 ## Error handling
 
