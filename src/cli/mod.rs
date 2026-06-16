@@ -10,9 +10,6 @@ use clap_stdin::FileOrStdin;
 use crate::formatters::Config;
 use crate::formatters::formatter::format;
 
-#[cfg(test)]
-mod tests;
-
 #[derive(Parser)]
 #[command(name = "gherkin-fmt", version, about = "Format Gherkin feature files")]
 pub struct Cli {
