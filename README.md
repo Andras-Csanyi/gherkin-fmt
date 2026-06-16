@@ -52,5 +52,4 @@ Feature: something
 - `gherkin-fmt.toml` configuration to projects
 - replacing the text juggling with Gherkin AST and nice formatting layers solution
 - performance improvements if any of it is necessary
-- `cargo binstall` installation
 - adding it to Homebrew

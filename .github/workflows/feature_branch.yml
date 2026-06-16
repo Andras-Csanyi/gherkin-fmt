@@ -1,0 +1,31 @@
+name: Faeture Branch Build
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # Release unpublished packages.
+  feature_branch:
+    name: feature branch build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        toolchain:
+          - stable
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install Rust toolchain
+        run: rustup update ${{ matrix.toolchain }} && rustup default ${{ matrix.toolchain }}
+
+      - name: Building
+        run: cargo build
+
+      - name: Testing
+        run: cargo test
